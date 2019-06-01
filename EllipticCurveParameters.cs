@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
-namespace ECDH1
+namespace ECDH
 {
-    class EllipticCurveParameters
+    public class EllipticCurveParameters
     {
         public BigInteger FieldCharacteristic { get; }
 
@@ -15,7 +15,7 @@ namespace ECDH1
 
         public int B { get; }
 
-        public Tuple<BigInteger, BigInteger> Point { get; }
+        public Point BasePoint { get; }
 
         public BigInteger SubGroupOrder { get; }
 
@@ -25,14 +25,14 @@ namespace ECDH1
             BigInteger fieldCharacteristic,
             int a,
             int b,
-            Tuple<BigInteger, BigInteger> point,
+            Point point,
             BigInteger subGroupOrder,
             int subGroupCofactor)
         {
             FieldCharacteristic = fieldCharacteristic;
             A = a;
             B = b;
-            Point = point;
+            BasePoint = point;
             SubGroupOrder = subGroupOrder;
             SubGroupCofactor = subGroupCofactor;
         }
