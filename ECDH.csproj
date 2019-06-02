@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DH.cs" />
     <Compile Include="EllipticCurve.cs" />
     <Compile Include="EllipticCurveParameters.cs" />
     <Compile Include="Exceptions\PointIsNotOnCurveExceptioin.cs" />
+    <Compile Include="Keys.cs" />
     <Compile Include="ModuloArithmetics.cs" />
     <Compile Include="ParametersFactory.cs" />
     <Compile Include="Point.cs" />
