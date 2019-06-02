@@ -52,7 +52,7 @@ namespace ECDH
 
         public static BigInteger Mod(BigInteger x, BigInteger p)
         {
-            return x >= 0 ? x % p : p - (-x % p);
+            return x >= 0 ? x % p : (p - (-x % p)) % p;
         }
     }
 }

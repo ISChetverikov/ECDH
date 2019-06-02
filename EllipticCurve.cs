@@ -29,7 +29,7 @@ namespace ECDH
             var b = Parameters.B;
             var p = Parameters.FieldCharacteristic;
 
-            return (y * y - x * x * x - a * x - b) % p == 0;
+            return ModuloArithmetics.Mod((y * y - x * x * x - a * x - b), p) == 0;
         }
 
         public Point Add(Point first, Point second)
@@ -45,10 +45,10 @@ namespace ECDH
             }
 
             if (first == Point.InfinityPoint)
-                return new Point(first);
+                return new Point(second);
 
             if (second == Point.InfinityPoint)
-                return new Point(second);
+                return new Point(first);
 
             BigInteger x1 = first.X ?? throw new ArgumentException();
             BigInteger y1 = first.Y ?? throw new ArgumentException();
@@ -68,7 +68,9 @@ namespace ECDH
             var x = m * m - x1 - x2;
             var y = y1 + m * (x - x1);
 
-            var point = new Point(x, y);
+            var point = new Point(
+                ModuloArithmetics.Mod( x, Parameters.FieldCharacteristic),
+                ModuloArithmetics.Mod(-y, Parameters.FieldCharacteristic));
 
             if (!IsOnCurve(point))
                 throw new PointIsNotOnCurveExceptioin("Result point of adding is not on the curve");

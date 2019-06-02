@@ -10,11 +10,17 @@ namespace ECDH
     {
         static void Main(string[] args)
         {
-            var parameters = ParametersFactory.Secp256k1();
+            var parameters = ParametersFactory.Custom();
             var EC = new EllipticCurve(parameters);
 
-            var p = EC.Parameters.BasePoint;
-            Console.WriteLine(EC.Multiply(123, p));
+            Console.WriteLine("======================");
+            var p = new Point(3, 5);
+            var q = new Point(3, 5);
+
+            
+            Console.WriteLine(EC.Add(q, q));
+            
+            
         }
     }
 }
