@@ -49,13 +49,29 @@ namespace ECDH
             if (second == Point.InfinityPoint)
                 return new Point(second);
 
-            var m = 0;
-            if (first.X == second.X && first.Y != second.Y)
+            BigInteger x1 = first.X ?? default(BigInteger);
+            BigInteger y1 = first.Y ?? default(BigInteger);
+            BigInteger x2 = second.X ?? default(BigInteger);
+            BigInteger y2 = second.Y ?? default(BigInteger);
+
+            BigInteger m = 0;
+            if (x1 == x2 && y1 != y2)
                 return Point.InfinityPoint;
 
-            return Point.InfinityPoint;
-            //if (first.X == second.X)
-            //    m = (3 * first.X * first.X + Parameters.A)               
+            if (x1 == x2)
+                m = (3 * x1 * x1 + Parameters.A)
+                    * ModuloArithmetics.Inverse(2 * y1, Parameters.FieldCharacteristic);
+            else
+                m = (y1 - y2) * ModuloArithmetics.Inverse(x1 - x2, Parameters.FieldCharacteristic);
+
+            var x = m * m - x1 - x2;
+            var y = y1 + m * (x - x1);
+
+            var point = new Point(x, y);
+            if (!IsOnCurve(point))
+                throw new PointIsNotOnCurveExceptioin("Result point of adding is not on the curve");
+
+            return point;
         }
     }
 }

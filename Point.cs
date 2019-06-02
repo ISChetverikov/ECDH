@@ -15,6 +15,9 @@ namespace ECDH
 
         public Point(BigInteger? x, BigInteger? y)
         {
+            if (x == null && y != null || y == null && x != null)
+                throw new ArgumentException("Half infinity points are forbidden");
+
             X = x;
             Y = y;
         }
