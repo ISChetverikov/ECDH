@@ -19,6 +19,12 @@ namespace ECDH
             Y = y;
         }
 
+        public Point(Point point)
+        {
+            X = point.X;
+            Y = point.Y;
+        }
+
         public static Point InfinityPoint
         {
             get
@@ -39,5 +45,6 @@ namespace ECDH
 
             return false;
         }
+
     }
 }

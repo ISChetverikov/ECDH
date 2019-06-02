@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using ECDH.Exceptions;
 
 namespace ECDH
 {
@@ -32,7 +33,29 @@ namespace ECDH
 
         public Point Add(Point first, Point second)
         {
+            if (!IsOnCurve(first))
+            {
+                throw new PointIsNotOnCurveExceptioin("First point is not on the curve");
+            }
 
+            if (!IsOnCurve(second))
+            {
+                throw new PointIsNotOnCurveExceptioin("Second point is not on the curve");
+            }
+
+            if (first == Point.InfinityPoint)
+                return new Point(first);
+
+            if (second == Point.InfinityPoint)
+                return new Point(second);
+
+            var m = 0;
+            if (first.X == second.X && first.Y != second.Y)
+                return Point.InfinityPoint;
+
+            return Point.InfinityPoint;
+            //if (first.X == second.X)
+            //    m = (3 * first.X * first.X + Parameters.A)               
         }
     }
 }

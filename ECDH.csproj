@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="EllipticCurve.cs" />
     <Compile Include="EllipticCurveParameters.cs" />
+    <Compile Include="Exceptions\PointIsNotOnCurveExceptioin.cs" />
+    <Compile Include="ModuloArithmetics.cs" />
     <Compile Include="ParametersFactory.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />

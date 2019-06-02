@@ -13,7 +13,7 @@ namespace ECDH
             var parameters = ParametersFactory.Secp256k1();
             var EC = new EllipticCurve(parameters);
 
-            Console.WriteLine(EC.IsOnCurve(new Point(2, 1)));
+            Console.WriteLine(ModuloArithmetics.Inverse(123, 3457));
         }
     }
 }
