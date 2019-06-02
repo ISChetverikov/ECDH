@@ -22,8 +22,9 @@ namespace ECDH
             if (point == Point.InfinityPoint)
                 return true;
 
-            var x = point.X;
-            var y = point.Y;
+            // Stuff
+            var x = point.X ?? throw new ArgumentException();
+            var y = point.Y ?? throw new ArgumentException();
             var a = Parameters.A;
             var b = Parameters.B;
             var p = Parameters.FieldCharacteristic;
@@ -49,10 +50,10 @@ namespace ECDH
             if (second == Point.InfinityPoint)
                 return new Point(second);
 
-            BigInteger x1 = first.X ?? default(BigInteger);
-            BigInteger y1 = first.Y ?? default(BigInteger);
-            BigInteger x2 = second.X ?? default(BigInteger);
-            BigInteger y2 = second.Y ?? default(BigInteger);
+            BigInteger x1 = first.X ?? throw new ArgumentException();
+            BigInteger y1 = first.Y ?? throw new ArgumentException();
+            BigInteger x2 = second.X ?? throw new ArgumentException();
+            BigInteger y2 = second.Y ?? throw new ArgumentException();
 
             BigInteger m = 0;
             if (x1 == x2 && y1 != y2)
@@ -68,10 +69,59 @@ namespace ECDH
             var y = y1 + m * (x - x1);
 
             var point = new Point(x, y);
+
             if (!IsOnCurve(point))
                 throw new PointIsNotOnCurveExceptioin("Result point of adding is not on the curve");
 
             return point;
+        }
+
+        public Point Neg(Point point)
+        {
+            if (!IsOnCurve(point))
+            {
+                throw new PointIsNotOnCurveExceptioin("Point is not on the curve");
+            }
+
+            if (point == Point.InfinityPoint)
+                return Point.InfinityPoint;
+
+            // Stuff
+            BigInteger y = point.Y ??
+                throw new ArgumentException();
+
+            return new Point(point.X,
+                ModuloArithmetics.Mod(-y, Parameters.FieldCharacteristic));
+        }
+
+        public Point Multiply(BigInteger k, Point point)
+        {
+            if (!IsOnCurve(point))
+            {
+                throw new PointIsNotOnCurveExceptioin("Point is not on the curve");
+            }
+
+            if (ModuloArithmetics.Mod(k, Parameters.SubGroupOrder) == 0
+                || point == Point.InfinityPoint)
+                return Point.InfinityPoint;
+
+            if (k < 0)
+                return Multiply(-k, Neg(point));
+
+            BigInteger copy = k;
+            Point result = Point.InfinityPoint;
+            Point currentPow = point;
+
+            while(copy > 0)
+            {
+                if (copy % 2 == 1)
+                    result = Add(result, currentPow);
+
+                currentPow = Add(currentPow, currentPow);
+                copy = copy / 2;
+            }
+
+            return result;
         }
     }
 }

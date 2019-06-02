@@ -49,5 +49,13 @@ namespace ECDH
             return false;
         }
 
+        public override string ToString()
+        {
+            if (this == InfinityPoint)
+                return "Inf";
+
+            return $"({X}, {Y})";
+        }
+
     }
 }

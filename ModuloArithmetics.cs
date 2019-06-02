@@ -47,7 +47,12 @@ namespace ECDH
             }
 
             y = y_prev;
-            return y >= 0 ? y % p : p - (-y % p);
+            return Mod(y, p);
+        }
+
+        public static BigInteger Mod(BigInteger x, BigInteger p)
+        {
+            return x >= 0 ? x % p : p - (-x % p);
         }
     }
 }
